@@ -1,0 +1,258 @@
+body {
+    background-color:linen;
+  
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;700&display=swap");
+
+:root {
+  --bg: #15110f;
+  --text: #f5eee6;
+  --muted: #d6cabe;
+  --mustard: #ffb81c;
+  --ink: #1a1208;
+  --radius: 32px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding-bottom: 6rem;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Manrope", system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Heading ---------- */
+
+h1 {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(3rem, 9vw, 7rem) 1.5rem clamp(2rem, 6vw, 4rem);
+  font-family: "Unbounded", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.2rem, 7.5vw, 6rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+/* ---------- Grid ---------- */
+
+.food {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ---------- Card: the photo is the card ---------- */
+
+.f {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 32rem;
+  padding: 1.5rem;
+  overflow: hidden;
+  background: #2a211c; /* shows if an image fails to load */
+  border-radius: var(--radius);
+  animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.f::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    rgba(12, 8, 6, 0.95) 0%,
+    rgba(12, 8, 6, 0.82) 38%,
+    rgba(12, 8, 6, 0) 72%
+  );
+  pointer-events: none;
+}
+
+.f img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.f:hover img {
+  transform: scale(1.05);
+}
+
+.f > *:not(img) {
+  z-index: 2;
+}
+
+/* ---------- Category: glass pill on the photo ---------- */
+
+.f-category {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text);
+  background: rgba(21, 17, 15, 0.45);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+}
+
+/* ---------- Card text ---------- */
+
+.f h3 {
+  margin: 0;
+  font-family: "Unbounded", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.f-desc {
+  margin: 0.6rem 0 0;
+  max-width: 34ch;
+  color: var(--text);
+  font-size: 0.98rem;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.f-ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.f-ingredients li {
+  padding: 0.2rem 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+}
+
+/* ---------- Price + button ---------- */
+
+.f-buy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.f-price {
+  font-family: "Unbounded", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+  line-height: 1;
+  color: var(--mustard);
+  white-space: nowrap;
+}
+
+.f button {
+  padding: 0.85rem 1.7rem;
+  font: inherit;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--text);
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.f button:hover {
+  background: var(--mustard);
+}
+
+.f button:active {
+  transform: scale(0.96);
+}
+
+:focus-visible {
+  outline: 2px solid var(--mustard);
+  outline-offset: 3px;
+}
+
+/* ---------- One page-load moment: cards rise in sequence ---------- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+}
+
+.f:nth-child(2) { animation-delay: 0.07s; }
+.f:nth-child(3) { animation-delay: 0.14s; }
+.f:nth-child(4) { animation-delay: 0.21s; }
+.f:nth-child(5) { animation-delay: 0.28s; }
+.f:nth-child(n + 6) { animation-delay: 0.35s; }
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 560px) {
+  .food {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+
+  h1 {
+    padding-inline: 1rem;
+  }
+
+  .f {
+    min-height: 28rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .f {
+    animation: none;
+  }
+
+  .f img,
+  .f button {
+    transition: none;
+  }
+}
+
+
+
